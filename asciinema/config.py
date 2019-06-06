@@ -146,3 +146,20 @@ def load(env=os.environ):
     config = Config(get_config_home(env), env)
     config.upgrade()
     return config
+
+
+class ConnectParam:
+    _connect_uuid = str(uuid.uuid4())
+    _connect_ip = '123'  # TODO: get ssh ip
+
+    def __init__(self):
+        pass
+
+    @property
+    def connect_uuid(self):
+        return self._connect_uuid
+
+    @property
+    def connect_ip(self):
+        return self._connect_ip
+
