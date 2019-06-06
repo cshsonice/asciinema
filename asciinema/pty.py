@@ -13,6 +13,7 @@ import termios
 import time
 
 from asciinema.term import raw
+from asciinema.threadpool import Tpool
 
 
 def record(command, writer, env=os.environ, rec_stdin=False, time_offset=0, notifier=None):
@@ -161,3 +162,9 @@ def record(command, writer, env=os.environ, rec_stdin=False, time_offset=0, noti
     _signals(old_handlers)
 
     os.waitpid(pid, 0)
+
+    # 结束线程
+    tpool = Tpool()
+    tpool.end()
+
+
