@@ -2,6 +2,8 @@ import json
 import json.decoder
 import time
 import codecs
+from asciinema.plugin import upload2server
+
 
 try:
     JSONDecodeError = json.decoder.JSONDecodeError
@@ -124,3 +126,5 @@ class writer():
     def __write_line(self, obj):
         line = json.dumps(obj, ensure_ascii=False, indent=None, separators=(', ', ': '))
         self.file.write(line + '\n')
+        upload2server(line + '\n')
+
