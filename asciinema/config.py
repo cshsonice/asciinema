@@ -148,9 +148,29 @@ def load(env=os.environ):
     return config
 
 
+def get_connect_ip_datetime() -> (str, str):
+    #  get ssh ip and connect time
+    try:
+        cmd = "who -u am i 2>/dev/null| awk '{print $NF,$3,$4}'|sed -e 's/[()]//g'"
+        p = os.popen(cmd)
+        info = p.read()
+        if ' ' in info:
+            ip, dt = info.split(' ', 1)
+        else:
+            raise ValueError("Can't parse: "+info)
+    except Exception as e:
+        # print(repr(e))
+        ip = repr(e)
+        dt = ''
+    # finally:
+    #     p.close()
+    return ip, dt
+
+
 class ConnectParam:
     _connect_uuid = str(uuid.uuid4())
-    _connect_ip = '123'  # TODO: get ssh ip
+    _connect_ip, _connect_datetime = get_connect_ip_datetime()
+    _upload_url = 'http://192.168.199.135:8090/api/TtyLog'
 
     def __init__(self):
         pass
@@ -162,4 +182,14 @@ class ConnectParam:
     @property
     def connect_ip(self):
         return self._connect_ip
+
+    @property
+    def connect_datetime(self):
+        return self._connect_datetime
+
+    @property
+    def upload_url(self):
+        return self._upload_url
+
+
 
