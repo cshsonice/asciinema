@@ -7,10 +7,11 @@ def upload2server(dataline: str):
 
     cp = ConnectParam()
     upload_data = {
-        'data': dataline,               # operation data
-        'id':   cp.connect_uuid,        # current ssh uuid
-        'ip':   cp.connect_ip,          # current ssh user's ip
-        'dt':   cp.connect_datetime,    # establish time of ssh connection
+        'text':     dataline,                 # operation data
+        'uuid':     cp.connect_uuid,          # current ssh uuid
+        'ip':       cp.connect_ip,            # current ssh user's ip
+        'mac':      cp.mac_address,           # local machine's mac address
+        'datetime': cp.connect_datetime,      # establish time of ssh connection
     }
     upload_data = json.dumps(upload_data)
     url = cp.upload_url
