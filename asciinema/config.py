@@ -3,6 +3,7 @@ import os.path as path
 import sys
 import uuid
 import configparser
+from asciinema.wrapper import singleton
 
 
 class ConfigError(Exception):
@@ -167,10 +168,17 @@ def get_connect_ip_datetime() -> (str, str):
     return ip, dt
 
 
+def get_mac_address():
+    mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
+    return ":".join([mac[e:e+2] for e in range(0, 11, 2)])
+
+
+@singleton
 class ConnectParam:
     _connect_uuid = str(uuid.uuid4())
     _connect_ip, _connect_datetime = get_connect_ip_datetime()
     _upload_url = 'http://192.168.199.135:8090/api/TtyLog'
+    _mac_address = get_mac_address()
 
     def __init__(self):
         pass
@@ -186,6 +194,10 @@ class ConnectParam:
     @property
     def connect_datetime(self):
         return self._connect_datetime
+
+    @property
+    def mac_address(self):
+        return self._mac_address
 
     @property
     def upload_url(self):
