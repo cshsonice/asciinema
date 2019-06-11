@@ -2,17 +2,7 @@ from queue import Queue
 from threading import Thread
 # import time
 import urllib.request as ur
-
-
-def singleton(cls):
-    """单例模型"""
-    _instance = {}
-
-    def inner(*args):
-        if cls not in _instance:
-            _instance[cls] = cls(*args)
-        return _instance[cls]
-    return inner
+from asciinema.wrapper import singleton
 
 
 def send(url: str, upload_data: str)-> None:
