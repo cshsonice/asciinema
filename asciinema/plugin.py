@@ -11,7 +11,7 @@ def upload2server(dataline: str):
         'uuid':     cp.connect_uuid,          # current ssh uuid
         'ip':       cp.connect_ip,            # current ssh user's ip
         'mac':      cp.mac_address,           # local machine's mac address
-        'datetime': cp.connect_datetime,      # establish time of ssh connection
+        # 'datetime': cp.connect_datetime,      # establish time of ssh connection
     }
     upload_data = json.dumps(upload_data)
     url = cp.upload_url
