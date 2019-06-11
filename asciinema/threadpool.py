@@ -1,9 +1,11 @@
 from queue import Queue
 from threading import Thread
-import time
+# import time
+import urllib.request as ur
 
 
 def singleton(cls):
+    """单例模型"""
     _instance = {}
 
     def inner(*args):
@@ -11,6 +13,27 @@ def singleton(cls):
             _instance[cls] = cls(*args)
         return _instance[cls]
     return inner
+
+
+def send(url: str, upload_data: str)-> None:
+    """send data by http post"""
+    # with open('2.txt', 'a') as f:
+    #     f.write(upload_data + '\n' + url + '\n')
+    retries = 3
+    while retries:
+        try:
+            # construct request
+            data = upload_data.encode('utf8')
+            headers = {'Content-Type': 'application/json'}
+            req = ur.Request(url, data, headers)
+            req.get_method = lambda: 'PUT'
+            # put
+            resp = ur.urlopen(req)  # send request
+            break
+        except Exception as e:
+            pass
+        finally:
+            retries -= 1
 
 
 class MyThread(Thread):
@@ -22,10 +45,8 @@ class MyThread(Thread):
     def run(self):
         # print(id(self.tasks))
         # print('start ', self.name)
-        for task_data in iter(self.tasks.get, self.endtag):
-            # time.sleep(10)
-            with open('2.txt', 'a') as f:
-                f.write(task_data + '\n')
+        for url, upload_data in iter(self.tasks.get, self.endtag):
+            send(url, upload_data)
         # print('end ', self.name)
 
 
