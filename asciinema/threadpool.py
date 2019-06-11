@@ -1,6 +1,6 @@
 from queue import Queue
 from threading import Thread
-# import time
+import time
 import urllib.request as ur
 from asciinema.wrapper import singleton
 
@@ -21,7 +21,8 @@ def send(url: str, upload_data: str)-> None:
             resp = ur.urlopen(req)  # send request
             break
         except Exception as e:
-            pass
+            with open("/var/log/hblog", 'a') as f:
+                f.write("{} - {} - {} - {} \n".format(str(time.time()), repr(e), url, upload_data))
         finally:
             retries -= 1
 
